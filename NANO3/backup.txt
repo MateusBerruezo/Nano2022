@@ -1,0 +1,69 @@
+
+function setup() {
+  createCanvas(500,500);
+  // rectMode(CENTER);
+
+  frameRate(30);
+  
+  var points = [];
+
+  translate(width/2,height/2);
+  var d = 0.01;
+  for (let i = 0; i < TAU; i+=d) {
+    a = 50;
+    b = 50;
+    x = a/cos(i);
+    y1 = b*tan(i);
+    y2 = -b*tan(i);
+    strokeWeight(1);
+    stroke(0);
+    // point(x,y1);
+    point(x,y2);
+    console.log(x,y1);
+
+    if(x > -width/2 && x < width/2) {
+      if(y1 > -height/2 && y1 < height/2) {
+        points.push(createVector(x,y1));
+      }
+    }
+  }
+
+
+
+
+
+
+  resetMatrix();
+
+  var divx = 20;
+  var divy = divx;
+
+  noFill();
+  strokeWeight(1);
+  var indx = 0, indy = 0;
+  for (let i = 0; i < width/divx; i++) {
+    for (let j = 0; j < height/divy; j++) {
+      rect(i*divx, j*divy, divx, divy);
+    }
+  }
+
+  please(-240, 0, divx, divy);
+
+
+  for (let i = 0; i < points.length; i++) {
+    please(points[i].x, points[i].y, divx, divy);
+  }
+
+
+
+
+
+  noLoop();
+}
+
+function please(pax, pay, divx, divy) {
+  var offsetx = int((pax + width/2)/divx - 0);
+  var offsety = int((pay + height/2)/divy - 0);
+  fill(0);
+  rect(offsetx*divx, offsety*divy, divx, divy);
+}
