@@ -1,17 +1,23 @@
 class Particle {
 
     constructor(x, y) {
+
         this.pos  = createVector(x, y);
         this.posa = createVector(x, y);
         this.vel  = createVector(0, 0);
         this.acc  = createVector(0, 0);
+
         this.c = color(255,0,0);
         this.pal = ["#F0EBE3"];
         this.pali = 0;
+        this.sim = 0;
+        this.asim = -1;
         this.cf = 4;
         this.cd = 0;
+
         this.sz = 1;
         this.m  = 1;
+
         this.nloci = 0;
         this.ndet = 0.01;
         this.ai = 0;
@@ -19,42 +25,51 @@ class Particle {
     }
 
     init(data) {
-        let r = 5;
+        
         let a = random(TAU);
-        this.pos.x += random(r)*cos(a);
-        this.pos.y += random(r)*sin(a);
-        this.setMass(10 + random(-10,10) + 0*random(-data.mass, data.mass));
+        this.pos.x += random(this.nrad)*cos(a);
+        this.pos.y += random(this.nrad)*sin(a);
+
+        this.setMass(data.mass);
         this.setSize(random(data.size));
         this.setLife(data.life);
+
         this.setPalette(data.pal);
         this.setColorFreq(data.colorFreq);
+        this.setSimmetry(data.simmetry);
+
         this.setNoiseOctave(data.index);
         this.setInitialAngle(data.initialAngle);
         this.setNoiseRadius(data.noiseRadius);
     }
 
 
+
+
+
+
+
     interact(x, y) {
         var p = createVector(x,y);
         p.sub(this.pos);
         p.normalize();
-        p.mult(5);
-        this.vel.add(p);
+        p.div(1.3*this.m);
+        this.acc.add(p);
     }
 
- 
-    updateVel() {
-        this.posa = createVector(this.pos.x, this.pos.y);
+    update() {
+        this.posa = this.pos.copy();
+        this.vel.add(this.acc);
         this.pos.add(this.vel);
-        this.vel.mult(0);
+        this.acc.mult(0);
 
         this.l--;
     }
 
     distort() {
         let a = this.ai + TAU*noise(this.ndet*this.pos.x, this.ndet*this.pos.y, this.nloci);
-        this.vel.x -= this.nrad*cos(a);
-        this.vel.y -= this.nrad*sin(a);
+        this.vel.x -= 0.025*this.nrad*cos(a);
+        this.vel.y -= 0.025*this.nrad*sin(a);
     }
 
     outBound() {
@@ -64,6 +79,13 @@ class Particle {
         return false;
     }
 
+
+
+    display() {
+        stroke(this.c);
+        strokeWeight(this.sz);
+        point(this.pos.x, this.pos.y);
+    }
 
     displayColorLine() {
         this.pali = int(mfc/this.cf)%this.cd;
@@ -76,13 +98,19 @@ class Particle {
         this.pali = int(mfc/this.cf)%this.cd;
         o1.stroke(this.pal[this.pali]);
         o1.strokeWeight(this.sz);
-        o1.line(width - this.posa.x, this.posa.y, width - this.pos.x, this.pos.y);
+        o1.line(width - this.posa.x, this.sim*height - this.asim*this.posa.y, width - this.pos.x, this.sim*height - this.asim*this.pos.y);
     }
+
+
+
 
 
     getLife() {
         return this.l;
     }
+
+
+
 
 
 
@@ -108,6 +136,11 @@ class Particle {
         this.cf = cf;
     }
 
+    setSimmetry(ss) {
+        this.sim = ss;
+        this.asim = 2*ss - 1;
+    }
+
     setSize(sz) {
         this.sz = sz;
     }
@@ -130,25 +163,6 @@ class Particle {
     setNoiseDetail(ndet) { this.ndet = ndet; }
 
     setNoiseRadius(nrad) { this.nrad = nrad; }
-
-
-
-    mitosis() {
-        let r = 5;
-        let nf = 0.01;
-        let a = TAU*noise(nf*this.pos.x, nf*this.pos.y, 1);
-        var p = new Particle(this.pos.x + r*cos(a), this.pos.y + r*sin(a));
-        
-        p.setMass(this.m);
-        p.setSize(this.sz);
-        p.setLife(this.l);
-        p.setPalette(this.pal);
-
-        return p;
-    }
-
-
-
 
 }
 
