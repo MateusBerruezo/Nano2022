@@ -26,5 +26,7 @@ Isso me obrigou a voltar para a prancheta e repensar a estratégia para gerar as
 ![Alt text](relative/path/to/img.jpg?raw=true "Title")
 
 <p align="justify">
-Combinando todos esses fatores, foi possível refinar o programa final e ainda adequar o modo de desenho para uma trajetória mais suave e menos (propositadamente) exata, refletindo nossa própria natureza brasileira. Ao final, nos resta uma espécie de dança que é, simultaneamente, ordenada e caótica, espelho de nossa própria construção. O resultado, pode ser visto [aqui](https://mateusberruezo.github.io/Nano2022/NANO3/index.html).
+Combinando todos esses fatores, foi possível refinar o programa final e ainda adequar o modo de desenho para uma trajetória mais suave e menos (propositadamente) exata, refletindo nossa própria natureza brasileira. Ao final, nos resta uma espécie de dança que é, simultaneamente, ordenada e caótica, espelho de nossa própria construção. O resultado, pode ser visto abaixo:
 </p>
+
+[Link do Sketch](https://mateusberruezo.github.io/Nano2022/NANO3/index.html)
