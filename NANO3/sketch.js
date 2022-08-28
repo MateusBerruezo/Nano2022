@@ -6,7 +6,7 @@ var data = [];
 
 var hyp;
 
-var itr = 2, mfc;
+var itr = 1, mfc;
 
 var o1, o2, o3, o4;
 
@@ -19,7 +19,7 @@ var prefx = 0;
 var mf = 1;
 
 
-var animThresh1 = 80, animThresh2 = 100;
+var animThresh1 = 160, animThresh2 = 200;
 
 
 let myFont;
@@ -52,6 +52,8 @@ function setup() {
   mfc = 0; distCenter = 10000; prefx = 0; fsz = 0;
 
   data = new Data(int(random(dados.length)));
+  // data = new Data(6);
+  // data = new Data(19);
   data.den = 1;
 
 
@@ -61,16 +63,28 @@ function setup() {
   }
 
 
+
+
+
+
+
   let minDim = width;
-  fsz = 0.123*minDim - 10.154;
+  fsz = 0.053*minDim - 10.154;
   let dlfsz = 2*fsz + 14.25;
   if(dlfsz > height) {
     fsz = (height - 14.5)/2.1;
   }
+  
 
   if(fsz >= 200) { fbsz = 4; }
     else if(fsz >= 180) { fbsz = 3; }
       else if(fsz >= 150) { fbsz = 2; } 
+
+
+
+
+
+
 
   let dtd = 500;
   let ddd = 0.005;
@@ -151,21 +165,25 @@ function draw() {
 
       if(mf != 0) {
         let frase = data.estado;
-        // fsz = 92;
         o4 = createGraphics(width, height);
         o4.background(0,0,0,0);
         o4.textFont(myFont);
-        o4.textAlign(CENTER, CENTER);
+        o4.textAlign(RIGHT, BASELINE);
         o4.textSize(fsz);
         o4.noFill();
         o4.stroke(255);
         o4.strokeWeight(10);
-        o4.text(frase, width/2 - 0.0*textWidth(frase.split("\n")[0]), height/2);
         if(mf == 1) {
           o4.strokeWeight(fbsz);
           o4.stroke(0);
-          o4.text(frase, width/2 - 0.0*textWidth(frase.split("\n")[0]), height/2);
+          o4.text(frase, width, height);
         }
+
+
+        o4.stroke(255);
+        o4.strokeWeight(2);
+        o4.text(frase, width - 5, height - 5);
+
         image(o4,0,0);
 
         if(mf == 2) {
@@ -185,6 +203,8 @@ function draw() {
 
 
     } 
+
+    // noLoop();
   }
   else {
     if(mfc > animThresh2) {
@@ -197,7 +217,28 @@ function draw() {
 }
 
 function keyPressed() {
-  noLoop();
+  switch(key) {
+    case '1':
+      itr = 1; 
+      setup();
+      break;
+
+      case '2':
+        itr = 2;
+        setup();
+        break;
+
+        case '3':
+          itr = 3;
+          setup();
+          break;
+
+          default:
+            noLoop();
+
+  }
+  animThresh1 = 160/itr, animThresh2 = 200/itr;
+  
 }
 
 function windowResized() {
